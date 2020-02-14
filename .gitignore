@@ -1,0 +1,6 @@
+.vscode
+*.code-workspace
+*.ppm
+*.jpg
+*.png
+a.out
