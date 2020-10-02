@@ -80,10 +80,11 @@ inline vec3 operator/(const vec3 &v1, const vec3 &v2) {
   return vec3(v1.e[0] / v2.e[0], v1.e[1] / v2.e[1], v1.e[2] / v2.e[2]);
 }
 
-// For some reason, there were 2 definitions of this function,
-// with the same body but different signature (vec3&, float) vs
-// (float, vec3&). I left one out.
 inline vec3 operator*(const vec3 &v, float t) {
+  return vec3(t * v.e[0], t * v.e[1], t * v.e[2]);
+}
+
+inline vec3 operator*(float t, const vec3 &v) {
   return vec3(t * v.e[0], t * v.e[1], t * v.e[2]);
 }
 
