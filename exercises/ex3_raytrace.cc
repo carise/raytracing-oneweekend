@@ -1,4 +1,6 @@
-#include "ray.h"
+#include "color.h"
+#include "vec3.h"
+
 #include <iostream>
 
 /* A simple ray tracer.
@@ -18,48 +20,28 @@
  *
  * Blends white and blue depending on the y-coordinate. Blue
  * is at 1.0 ("top"), and white is at 0.0 ("bottom").
- * 
+ *
  * This forms a linear interpolation, in the form of:
- * 
+ *
  * blended_value = (1-t)*start_value + t*end_value, where
  * t = [0,1]
  */
-vec3 color(const ray &r)
-{
-    vec3 unit_direction = unit_vector(r.direction());
-    float t = 0.5 * (unit_direction.y() + 1.0);
-    return (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);
-}
 
 int main()
 {
-    int nx = 200;
-    int ny = 100;
-    const float magic = 255.99;
-    const float b = 0.2;
+  const int image_width = 256;
+  const int image_height = 256;
 
-    std::cout << "P3\n"
-              << nx << " " << ny << "\n255\n";
+  std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
-    vec3 lower_left_corner(-2.0, -1.0, -1.0);
-    vec3 horizontal(4.0, 0.0, 0.0);
-    vec3 vertical(0.0, 2.0, 0.0);
-    vec3 origin(0.0, 0.0, 0.0);
-
-    for (int j = ny - 1; j >= 0; j--)
-    {
-        for (int i = 0; i < nx; i++)
-        {
-            float u = float(i) / float(nx);
-            float v = float(j) / float(ny);
-            ray r(origin, lower_left_corner + u*horizontal + v*vertical);
-            vec3 col = color(r);
-            int ir = int(magic * col[0]);
-            int ig = int(magic * col[1]);
-            int ib = int(magic * col[2]);
-            std::cout << ir << " " << ig << " " << ib << "\n";
-        }
+  for (int j = image_height - 1; j >= 0; j--) {
+    std::clog << "\nScanlines remaining: " << j << ' ' << std::flush;
+    for (int i = 0; i < image_width; i++) {
+      auto pixel_color = color(double(i) / (image_width-1), double(j) / (image_height-1), 0);
+      write_color(std::cout, pixel_color);
     }
+  }
 
-    return 0;
+  std::clog << "\nDone.\n";
+  return 0;
 }

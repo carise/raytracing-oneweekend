@@ -4,3 +4,6 @@
 *.jpg
 *.png
 a.out
+
+*.d
+*.o

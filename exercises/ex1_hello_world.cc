@@ -1,5 +1,3 @@
-#include "color.h"
-#include "vec3.h"
 #include <iostream>
 
 /* Output a PPM file.
@@ -10,20 +8,25 @@
 int main() {
   const int image_width = 256;
   const int image_height = 256;
-
-  const float b = 0.2;
+  const double magic = 255.999;
 
   std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
   for (int j = image_height - 1; j >= 0; j--) {
-    std::cerr << "\nScanlines remaining: " << j << ' ' << std::flush;
+    std::clog << "\nScanlines remaining: " << j << ' ' << std::flush;
     for (int i = 0; i < image_width; i++) {
-      color pixel_color(double(i) / (image_width - 1),
-                        double(j) / (image_height - 1), 0.25);
-      write_color(std::cout, pixel_color);
+      auto r = double(i) / (image_width-1);
+      auto g = double(j) / (image_height-1);
+      auto b = 0.0;
+
+      int ir = int(magic * r);
+      int ig = int(magic * g);
+      int ib = int(magic * b);
+
+      std::cout << ir << ' ' << ig << ' ' << ib << '\n';
     }
   }
 
-  std::cerr << "\nDone.\n";
+  std::clog << "\nDone.\n";
   return 0;
 }
