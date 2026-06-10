@@ -34,8 +34,7 @@ color ray_color(const ray& r) {
   return (1.0-a) * color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
 }
 
-int main()
-{
+int main() {
   auto aspect_ratio = 16.0 / 9.0;
   const int image_width = 400;
 

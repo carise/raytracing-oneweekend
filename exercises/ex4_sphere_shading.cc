@@ -4,15 +4,6 @@
 
 #include <iostream>
 
-/* Create a sphere.
- *
- * Builds off exercise 3, the simple ray tracer.
- *
- * A sphere centered at the origin of radius R is:
- *
- * x*x + y*y + z*z = R*R
- */
-
 bool hit_sphere(const point3& center, double radius, const ray& r) {
     vec3 oc = center - r.origin();
     auto a = dot(r.direction(), r.direction());
@@ -22,13 +13,6 @@ bool hit_sphere(const point3& center, double radius, const ray& r) {
     return discriminant >= 0;
 }
 
-/* Computes the color for the ray.
- *
- * Builds off exercise 3, where the ray tracer colored the
- * pixels from white to blue (depending on y coordinate).
- *
- * If the ray hits the sphere, return a red color.
- */
 color ray_color(const ray &r) {
     if (hit_sphere(point3(0, 0, -1), 0.5, r)) {
         return color(1, 0, 0);

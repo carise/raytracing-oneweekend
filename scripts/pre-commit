@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Run make clean before git commit
+
+cd exercises
+echo ">>> Running 'make clean' before commit..."
+
+if ! make clean; then
+    echo "❌ 'make clean' failed! Commit aborted."
+    exit 1
+fi
+
+echo "✔️ 'make clean' succeeded."
+
+cd ..
+
+exit 0
+
