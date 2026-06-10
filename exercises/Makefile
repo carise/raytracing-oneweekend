@@ -1,7 +1,7 @@
 CXX = clang++
 CXXFLAGS = -Wall -std=c++17 -O3 -MMD
 
-EXES = ex1 ex2 ex3 ex4
+EXES = ex1 ex2 ex3 ex4 ex5
 
 all: $(EXES)
 
