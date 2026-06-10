@@ -5,7 +5,9 @@
 
 #include <iostream>
 
-void write_color(std::ostream &out, color pixel_color) {
+using color = vec3;
+
+void write_color(std::ostream &out, const color& pixel_color) {
   double magic = 255.99;
   auto r = pixel_color.x();
   auto g = pixel_color.y();
