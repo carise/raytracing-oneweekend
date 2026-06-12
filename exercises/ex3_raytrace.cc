@@ -1,8 +1,4 @@
-#include "color.h"
-#include "ray.h"
-#include "vec3.h"
-
-#include <iostream>
+#include "rtweekend.h"
 
 /* A simple ray tracer.
  *

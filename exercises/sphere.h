@@ -1,43 +1,45 @@
 #ifndef SPHEREH
 #define SPHEREH
 
-#include "hitable.h"
+#include "hittable.h"
 
-class sphere : public hitable {
+class sphere : public hittable {
 public:
-  sphere() {}
-  sphere(vec3 sphere_center, float r) : center(sphere_center), radius(r) {};
-  virtual bool hit(const ray &r, float t_min, float t_max,
-                   hit_record &rec) const;
-  vec3 center;
-  float radius;
-};
+  sphere(const point3 &center, double radius)
+      : center(center), radius(std::fmax(0, radius)) {}
 
-bool sphere::hit(const ray &r, float t_min, float t_max,
-                 hit_record &rec) const {
-  vec3 oc = r.origin() - center;
-  float a = dot(r.direction(), r.direction());
-  float b = dot(oc, r.direction());
-  float c = dot(oc, oc) - radius * radius;
-  float discriminant = b * b - a * c;
-  if (discriminant > 0) {
-    // code is a bit redundant, maybe clean it up later?
-    float t_current = (-b - sqrt(discriminant)) / a;
-    if (t_current < t_max && t_current > t_min) {
-      rec.t = t_current;
-      rec.p = r.point_at_parameter(rec.t);
-      rec.normal = (rec.p - center) / radius;
-      return true;
+  bool hit(const ray &r, double ray_tmin, double ray_tmax,
+           hit_record &rec) const override {
+    vec3 oc = center - r.origin();
+    auto a = r.direction().length_squared();
+    auto h = dot(r.direction(), oc);
+    auto c = oc.length_squared() - radius * radius;
+
+    auto discriminant = h * h - a * c;
+    if (discriminant < 0) {
+      return false;
     }
-    t_current = (-b + sqrt(discriminant)) / a;
-    if (t_current < t_max && t_current > t_min) {
-      rec.t = t_current;
-      rec.p = r.point_at_parameter(rec.t);
-      rec.normal = (rec.p - center) / radius;
-      return true;
+
+    auto sqrtd = std::sqrt(discriminant);
+    auto root = (h - sqrtd) / a;
+    if (root <= ray_tmin || ray_tmax <= root) {
+      root = (h + sqrtd) / a;
+      if (root <= ray_tmin || ray_tmax <= root) {
+        return false;
+      }
     }
+
+    rec.t = root;
+    rec.p = r.at(rec.t);
+    vec3 outward_normal = (rec.p - center) / radius;
+    rec.set_face_normal(r, outward_normal);
+
+    return true;
   }
-  return false;
-}
+
+private:
+  point3 center;
+  double radius;
+};
 
 #endif

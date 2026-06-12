@@ -1,5 +1,5 @@
 #include "camera.h"
-#include "hitable_list.h"
+#include "hittable_list.h"
 #include "sphere.h"
 #include <cstdlib>
 #include <iostream>
@@ -15,7 +15,7 @@
  * In this exercise, we shade the sphere by mapping the vector to x/y/z and
  * then to r/g/b.
  */
-vec3 color(const ray &r, hitable *world) {
+vec3 color(const ray &r, hittable *world) {
   hit_record rec;
   if (world->hit(r, 0.0, MAXFLOAT, rec)) {
     return 0.5 *
@@ -45,10 +45,10 @@ int main() {
 
   std::cout << "P3\n" << nx << " " << ny << "\n255\n";
 
-  hitable *list[2];
+  hittable *list[2];
   list[0] = new sphere(vec3(0, 0, -1), 0.5);
   list[1] = new sphere(vec3(0, -100.5, -1), 100);
-  hitable *world = new hitable_list(list, 2);
+  hittable *world = new hittable_list(list, 2);
   camera cam;
 
   for (int j = ny - 1; j >= 0; j--) {

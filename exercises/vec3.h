@@ -1,9 +1,6 @@
 #ifndef VEC3_H
 #define VEC3_H
 
-#include <cmath>
-#include <iostream>
-
 using std::sqrt;
 
 /* 3-coordinate vector.
@@ -76,7 +73,7 @@ inline vec3 operator*(double t, const vec3 &v) {
 
 inline vec3 operator*(const vec3 &v, double t) { return t * v; }
 
-inline vec3 operator/(vec3 &v, double t) { return (1 / t) * v; }
+inline vec3 operator/(const vec3 &v, double t) { return (1 / t) * v; }
 
 std::istream &operator>>(std::istream &is, vec3 &t) {
   is >> t.e[0] >> t.e[1] >> t.e[2];
